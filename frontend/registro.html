@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/drive-js@0.2.5/dist/drive.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .registro-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 registro-container">
+                <h2 class="text-center mb-4">Registro</h2>
+                <form id="registroForm">
+                    <div class="form-group">
+                        <label for="nome">Nome</label>
+                        <input type="text" class="form-control" id="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="senha">Senha</label>
+                        <input type="password" class="form-control" id="senha" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+                    <p class="text-center mt-3">
+                        Já tem conta? <a href="/login">Faça login</a>
+                    </p>
+                </form>
+                <button id="tutorialBtn" class="btn btn-info btn-block mt-3">Mostrar Tutorial</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/drive-js@0.2.5/dist/drive.min.js"></script>
+
+    <script>
+        
+        function showSwitchAlert() {
+            const switchAlert = confirm("Gostaria de saber mais sobre o site?");
+            if (switchAlert) {
+                alert("Bem-vindo ao tutorial! Aqui você pode criar uma conta para acessar nosso conteúdo exclusivo.");
+            } else {
+                alert("Você pode sempre acessar o tutorial clicando no botão de ajuda!");
+            }
+        }
+
+        $('#registroForm').on('submit', function(e) {
+            e.preventDefault();
+
+            const nome = $('#nome').val();
+            const email = $('#email').val();
+            const senha = $('#senha').val();
+
+            console.log('Dados de registro:', { nome, email, senha });
+
+            $.ajax({
+                url: '/api/auth/registrar', 
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ nome, email, senha }),
+
+                beforeSend: function(xhr) {
+                    console.log('Enviando requisição de registro...');
+                },
+
+                success: function(response) {
+                    console.log('Resposta de registro:', response);
+
+                    localStorage.setItem('token', response.token);
+                    localStorage.setItem('userId', response.id);
+                    localStorage.setItem('userName', response.nome);
+                    localStorage.setItem('userEmail', response.email);
+
+                    window.location.href = '/escolhas';
+                },
+
+                error: function(xhr, status, error) {
+                    console.error('Erro de registro detalhado:');
+                    console.error('Status:', xhr.status);
+                    console.error('Resposta:', xhr.responseText);
+                    console.error('Erro:', error);
+
+                    let errorMessage = 'Erro desconhecido';
+
+                    if (xhr.responseJSON && xhr.responseJSON.error) {
+                        errorMessage = xhr.responseJSON.error;
+                    } else if (xhr.responseText) {
+                        try {
+                            const errorResponse = JSON.parse(xhr.responseText);
+                            errorMessage = errorResponse.error || errorMessage;
+                        } catch(e) {
+                            errorMessage = xhr.responseText;
+                        }
+                    }
+
+                    alert(errorMessage);
+                }
+            });
+        });
+
+        $('#tutorialBtn').on('click', function() {
+          
+            if (typeof Drive !== 'undefined') {
+                const drive = new Drive({
+                    steps: [
+                        {
+                            element: '#nome',
+                            popover: {
+                                title: 'Campo Nome',
+                                description: 'Aqui você deve inserir seu nome completo.',
+                                position: 'bottom'
+                            }
+                        },
+                        {
+                            element: '#email',
+                            popover: {
+                                title: 'Campo E-mail',
+                                description: 'Aqui você deve inserir seu e-mail para o registro.',
+                                position: 'bottom'
+                            }
+                        },
+                        {
+                            element: '#senha',
+                            popover: {
+                                title: 'Campo Senha',
+                                description: 'Escolha uma senha forte para proteger sua conta.',
+                                position: 'bottom'
+                            }
+                        },
+                        {
+                            element: 'button[type="submit"]',
+                            popover: {
+                                title: 'Botão Registrar',
+                                description: 'Após preencher todos os campos, clique aqui para finalizar o registro.',
+                                position: 'bottom'
+                            }
+                        }
+                    ]
+                });
+                drive.start();
+            } else {
+                console.error("Drive.js não foi carregado corretamente.");
+                alert("O tutorial não pôde ser carregado. Tente novamente mais tarde.");
+            }
+        });
+    </script>
+</body>
+</html>

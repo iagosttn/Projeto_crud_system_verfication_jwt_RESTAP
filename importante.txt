@@ -1,0 +1,8 @@
+# Gerar PDF
+ http://localhost:3000/logs/gerar-pdf
+
+# Listar PDFs
+http://localhost:3000/logs/listar-pdfs
+
+# Download de PDF
+http://localhost:3000/logs/download-pdf/nome-do-arquivo.pdf

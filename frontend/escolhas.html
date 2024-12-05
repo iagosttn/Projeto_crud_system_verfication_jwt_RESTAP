@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Escolha de Área</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .escolhas-container {
+            text-align: center;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-escolha {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
+            width: 200px;
+        }
+
+        .user-info {
+            margin-bottom: 20px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container escolhas-container">
+        <div class="user-info">
+            <h3 id="nomeUsuario"></h3>
+            <p id="emailUsuario"></p>
+        </div>
+        <h2 class="mb-4">Escolha sua Área</h2>
+        <div>
+            <a href="/eventos" class="btn btn-success btn-escolha">
+                <i class="fas fa-calendar-alt"></i> Eventos
+            </a>
+            <a href="/participantes" class="btn btn-info btn-escolha">
+                <i class="fas fa-users"></i> Participantes
+            </a>
+            <button id="logoutBtn" class="btn btn-danger btn-escolha">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script>
+        $(document).ready(function () {
+            const token = localStorage.getItem('token');
+            const userId = localStorage.getItem('userId');
+            const userName = localStorage.getItem('userName');
+            const userEmail = localStorage.getItem('userEmail');
+
+
+            function verificarToken() {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = '/login';
+                    return;
+                }
+
+                $.ajax({
+                    url: '/api/auth/verificar-token',
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    success: function (response) {
+
+                        $('#nomeUsuario').text(userName);
+                        $('#emailUsuario').text(userEmail);
+                    },
+                    error: function () {
+
+                        localStorage.clear();
+                        window.location.href = '/login';
+                    }
+                });
+
+
+            }
+
+            if (!token) {
+                window.location.href = '/login';
+                return;
+            }
+
+            verificarToken();
+
+            $('#logoutBtn').on('click', function () {
+                const token = localStorage.getItem('token');
+
+                $.ajax({
+                    url: '/api/auth/logout',
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    },
+                    success: function () {
+
+                        localStorage.clear();
+                        sessionStorage.clear();
+
+
+                        window.location.href = '/login';
+                        history.pushState(null, null, '/login');
+                    },
+                    error: function () {
+                        localStorage.clear();
+                        window.location.href = '/login';
+                    }
+                });
+            });
+        })
+
+    </script>
+</body>
+</html>

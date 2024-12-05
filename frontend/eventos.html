@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Eventos</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        .table-actions {
+            white-space: nowrap;
+        }
+
+        .table-actions .btn {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4">Gerenciamento de Eventos</h1>
+                <div class="text-right mb-3">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#modalCadastrarEvento">
+                        <i class="fas fa-plus"></i> Novo Evento
+                    </button>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Data</th>
+                                <th>Local</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaEventos">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalCadastrarEvento" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cadastrar Novo Evento</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCadastrarEvento">
+                        <div class="form-group">
+                            <label for="nomeNovoEvento">Nome do Evento</label>
+                            <input type="text" class="form-control" id="nomeNovoEvento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dataNovoEvento">Data do Evento</label>
+                            <input type="datetime-local" class="form-control" id="dataNovoEvento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="localNovoEvento">Local do Evento</label>
+                            <input type="text" class="form-control" id="localNovoEvento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="descricaoNovoEvento">Descrição do Evento</label>
+                            <textarea class="form-control" id="descricaoNovoEvento" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Salvar Evento
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalEditarEvento" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Evento</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarEvento">
+                        <input type="hidden" id="editEventoId">
+                        <div class="form-group">
+                            <label for="nomeEditEvento">Nome do Evento</label>
+                            <input type="text" class="form-control" id="nomeEditEvento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dataEditEvento">Data do Evento</label>
+                            <input type="datetime-local" class="form-control" id="dataEditEvento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="localEditEvento">Local do Evento</label>
+                            <input type="text" class="form-control" id="localEditEvento" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="descricaoEditEvento">Descrição do Evento</label>
+                            <textarea class="form-control" id="descricaoEditEvento" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Atualizar Evento
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+
+            function carregarEventos() {
+                $.ajax({
+                    url: '/api/eventos',
+                    method: 'GET',
+                    success: function (eventos) {
+                        const tabela = $('#tabelaEventos');
+                        tabela.empty();
+
+                        eventos.forEach(evento => {
+                            const row = `
+                            <tr>
+                                <td>${evento.id}</td>
+                                <td>${evento.nome}</td>
+                                <td>${new Date(evento.data).toLocaleString()}</td>
+                                <td>${evento.local}</td>
+                                <td class="table-actions">
+                                    <button class="btn btn-warning btn-sm" onclick="abrirModalEditar(${evento.id})">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" onclick="deletarEvento(${evento.id})">
+                                        <i class="fas fa-trash"></i> Deletar
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                            tabela.append(row);
+                        });
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erro ao carregar eventos:', error);
+                        alert('Não foi possível carregar os eventos');
+                    }
+                });
+            }
+
+            window.abrirModalEditar = function (id) {
+                $.ajax({
+                    url: `/api/eventos/${id}`,
+                    method: 'GET',
+                    success: function (evento) {
+                        $('#editEventoId').val(evento.id);
+                        $('#nomeEditEvento').val(evento.nome);
+                        $('#dataEditEvento').val(new Date(evento.data).toISOString().slice(0, 16));
+                        $('#localEditEvento').val(evento.local);
+                        $('#descricaoEditEvento').val(evento.descricao);
+                        $('#modalEditarEvento').modal('show');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erro ao carregar evento:', error);
+                        alert('Não foi possível carregar os dados do evento');
+                    }
+                });
+            }
+
+            window.deletarEvento = function (id) {
+                if (confirm('Tem certeza que deseja deletar este evento?')) {
+                    $.ajax({
+                        url: `/api/eventos/${id}`,
+                        method: 'DELETE',
+                        success: function () {
+                            carregarEventos();
+                            alert('Evento deletado com sucesso');
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Erro ao deletar evento:', error);
+                            alert('Não foi possível deletar o evento');
+                        }
+                    });
+                }
+            }
+
+            $('#formCadastrarEvento').on('submit', function (e) {
+                e.preventDefault();
+                const novoEvento = {
+                    nome: $('#nomeNovoEvento').val(),
+                    data: new Date($('#dataNovoEvento').val()).toISOString(),
+                    local: $('#localNovoEvento').val(),
+                    descricao: $('#descricaoNovoEvento').val()
+                };
+
+                $.ajax({
+                    url: '/api/eventos',
+                    method: 'POST',
+                    data: JSON.stringify(novoEvento),
+                    contentType: 'application/json',
+                    beforeSend: function (xhr) {
+                        const token = localStorage.getItem('token');
+                        if (token) {
+                            xhr.setRequestHeader('Authorization', `Bearer ${token}`);
+                        }
+                    },
+                    success: function (response) {
+                        $('#modalCadastrarEvento').modal('hide');
+                        carregarEventos();
+                        switchAlert('Evento cadastrado com sucesso');
+                    },
+                    error: function (xhr, status, error) {
+                        let errorMessage = 'Não foi possível cadastrar o evento';
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            errorMessage = xhr.responseJSON.error;
+                        }
+                        switchAlert(errorMessage);
+                    }
+                });
+            });
+
+            $('#formEditarEvento').on('submit', function (e) {
+                e.preventDefault();
+                const eventoAtualizado = {
+                    id: $('#editEventoId').val(),
+                    nome: $('#nomeEditEvento').val(),
+                    data: $('#dataEditEvento').val(),
+                    local: $('#localEditEvento').val(),
+                    descricao: $('#descricaoEditEvento').val()
+                };
+
+                $.ajax({
+                    url: `/api/eventos/${eventoAtualizado.id}`,
+                    method: 'PUT',
+                    data: JSON.stringify(eventoAtualizado),
+                    contentType: 'application/json',
+                    success: function () {
+                        $('#modalEditarEvento').modal('hide');
+                        carregarEventos();
+                        switchAlert('Evento atualizado com sucesso');
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Erro ao atualizar evento:', error);
+                        switchAlert('Não foi possível atualizar o evento');
+                    }
+                });
+            });
+
+            function switchAlert(message) {
+                alert(message);
+            }
+
+            carregarEventos();
+        });
+    </script>
+</body>
+
+</html>

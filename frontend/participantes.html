@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Participantes</title>
+    
+ 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    
+   
+    <style>
+        .table-actions {
+            white-space: nowrap;
+        }
+        .table-actions .btn {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center mb-4">Gerenciamento de Participantes</h1>
+                
+              
+                <div class="form-group">
+                    <label for="eventoFiltro">Filtrar por Evento</label>
+                    <select id="eventoFiltro" class="form-control">
+                        <option value="">Todos os Eventos</option>
+                        
+                    </select>
+                </div>
+
+              
+                <div class="text-right mb-3">
+                    <button class="btn btn-success" data-toggle="modal" data-target="#modalCadastrarParticipante">
+                        <i class="fas fa-plus"></i> Novo Participante
+                    </button>
+                </div>
+
+           
+                <div class="table-responsive">
+                    <table class="table table-striped table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Evento</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaParticipantes">
+                      
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div class="modal fade" id="modalCadastrarParticipante" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cadastrar Novo Participante</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formCadastrarParticipante">
+                        <div class="form-group">
+                            <label for="nomeNovoParticipante">Nome do Participante</label>
+                            <input type="text" class="form-control" id="nomeNovoParticipante" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventoNovoParticipante">Evento</label>
+                            <select class="form-control" id="eventoNovoParticipante" required>
+                                <option value="">Selecione um Evento</option>
+                           
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Salvar Participante
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   
+    <div class="modal fade" id="modalEditarParticipante" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Participante</h5>
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="formEditarParticipante">
+                        <input type="hidden" id="editParticipanteId">
+                        <div class="form-group">
+                            <label for="nomeEditParticipante">Nome do Participante</label>
+                            <input type="text" class="form-control" id="nomeEditParticipante" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventoEditParticipante">Evento</label>
+                            <select class="form-control" id="eventoEditParticipante" required>
+                                <option value="">Selecione um Evento</option>
+                              
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Atualizar Participante
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+    
+        function carregarEventos() {
+            $.ajax({
+                url: '/api/eventos',
+                method: 'GET',
+                success: function(eventos) {
+                    const selectNovoParticipante = $('#eventoNovoParticipante');
+                    const selectEditParticipante = $('#eventoEditParticipante');
+                    const selectFiltroEvento = $('#eventoFiltro');
+
+                
+                    [selectNovoParticipante, selectEditParticipante, selectFiltroEvento].forEach(select => {
+                        select.empty();
+                        select.append('<option value="">Selecione um Evento</option>');
+                    });
+
+                  
+                    eventos.forEach(evento => {
+                        const option = `<option value="${evento.id}">${evento.nome}</option>`;
+                        selectNovoParticipante.append(option);
+                        selectEditParticipante.append(option);
+                        selectFiltroEvento.append(option);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erro ao carregar eventos:', error);
+                    alert('Não foi possível carregar os eventos');
+                }
+            });
+            $('#eventoFiltro').on('change', function() {
+                const eventoId = $(this).val();
+                carregarParticipantes(eventoId);
+            });
+        }
+
+ 
+        function carregarParticipantes(eventoId = '') {
+            $.ajax({
+                url: `/api/participantes`,
+                method: 'GET',
+                data: { evento_id: eventoId },
+                success: function(participantes) {
+                    const tabela = $('#tabelaParticipantes');
+                    tabela.empty();
+
+                    participantes.forEach(participante => { const row = `
+                            <tr>
+                                <td>${participante.id}</td>
+                                <td>${participante.nome}</td>
+                                <td>${participante.evento_nome}</td>
+                                <td class="table-actions">
+                                    <button class="btn btn-warning btn-sm" onclick="abrirModalEditar(${participante.id})">
+                                        <i class="fas fa-edit"></i> Editar
+                                    </button>
+                                    <button class="btn btn-danger btn-sm" onclick="deletarParticipante(${participante.id})">
+                                        <i class="fas fa-trash"></i> Deletar
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                        tabela.append(row);
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erro ao carregar participantes:', error);
+                    alert('Não foi possível carregar os participantes');
+                }
+            });
+        }
+
+      
+        window.abrirModalEditar = function(id) {
+            $.ajax({
+                url: `/api/participantes/${id}`,
+                method: 'GET',
+                success: function(participante) {
+                    $('#editParticipanteId').val(participante.id);
+                    $('#nomeEditParticipante').val(participante.nome);
+                    $('#eventoEditParticipante').val(participante.evento_id);
+                    $('#modalEditarParticipante').modal('show');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erro ao carregar participante:', error);
+                    alert('Não foi possível carregar os dados do participante');
+                }
+            });
+        };
+
+
+        window.deletarParticipante = function(id) {
+            if (confirm('Tem certeza que deseja deletar este participante?')) {
+                $.ajax({
+                    url: `/api/participantes/${id}`,
+                    method: 'DELETE',
+                    success: function() {
+                        alert('Participante deletado com sucesso!');
+                        carregarParticipantes();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Erro ao deletar participante:', error);
+                        alert('Não foi possível deletar o participante');
+                    }
+                });
+            }
+        };
+
+ 
+        $('#formCadastrarParticipante').on('submit', function(e) {
+            e.preventDefault();
+            const nome = $('#nomeNovoParticipante').val();
+            const eventoId = $('#eventoNovoParticipante').val();
+
+            $.ajax({
+                url: '/api/participantes',
+                method: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({ nome, evento_id: eventoId }),
+                success: function() {
+                    $('#modalCadastrarParticipante').modal('hide');
+                    carregarParticipantes();
+                    alert('Participante cadastrado com sucesso!');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erro ao cadastrar participante:', error);
+                    alert('Não foi possível cadastrar o participante');
+                }
+            });
+        });
+
+
+        $('#formEditarParticipante').on('submit', function(e) {
+            e.preventDefault();
+            const id = $('#editParticipanteId').val();
+            const nome = $('#nomeEditParticipante').val();
+            const eventoId = $('#eventoEditParticipante').val();
+
+            $.ajax({
+                url: `/api/participantes/${id}`,
+                method: 'PUT',
+                contentType: 'application/json',
+                data: JSON.stringify({ nome, evento_id: eventoId }),
+                success: function() {
+                    $('#modalEditarParticipante').modal('hide');
+                    carregarParticipantes();
+                    alert('Participante atualizado com sucesso!');
+                },
+                error: function(xhr, status, error) {
+                    console.error('Erro ao atualizar participante:', error);
+                    alert('Não foi possível atualizar o participante');
+                }
+            });
+        });
+
+       
+        carregarEventos();
+        carregarParticipantes();
+    });
+    </script>
+</body>
+</html>

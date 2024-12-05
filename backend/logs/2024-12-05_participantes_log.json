@@ -1,0 +1,439 @@
+[
+  {
+    "timestamp": "2024-12-05T12:59:53.243Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T12:59:53.248Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 0
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:00:01.539Z",
+    "action": "cadastrar_participante_inicio",
+    "details": {
+      "nome": "IAGO",
+      "evento_id": "1",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:00:01.545Z",
+    "action": "cadastrar_participante_sucesso",
+    "details": {
+      "id": 2,
+      "nome": "IAGO",
+      "evento_id": "1"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:00:01.555Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:00:01.557Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 1
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:02:51.367Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "1",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:02:51.373Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 1
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:02:57.234Z",
+    "action": "cadastrar_participante_inicio",
+    "details": {
+      "nome": "HEITOR",
+      "evento_id": "1",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:02:57.241Z",
+    "action": "cadastrar_participante_sucesso",
+    "details": {
+      "id": 3,
+      "nome": "HEITOR",
+      "evento_id": "1"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:02:57.252Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:02:57.254Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 2
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:06:51.921Z",
+    "action": "cadastrar_participante_inicio",
+    "details": {
+      "nome": "HEITOR",
+      "evento_id": "1",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:06:51.927Z",
+    "action": "cadastrar_participante_sucesso",
+    "details": {
+      "id": 4,
+      "nome": "HEITOR",
+      "evento_id": "1"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:06:51.938Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:06:51.939Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 3
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:09:01.305Z",
+    "action": "cadastrar_participante_inicio",
+    "details": {
+      "nome": "HEITOR",
+      "evento_id": "1",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:09:01.312Z",
+    "action": "cadastrar_participante_sucesso",
+    "details": {
+      "id": 5,
+      "nome": "HEITOR",
+      "evento_id": "1"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:09:01.322Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:09:01.324Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 4
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:16:34.000Z",
+    "action": "cadastrar_participante_inicio",
+    "details": {
+      "nome": "KAUAN",
+      "evento_id": "1",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:16:34.008Z",
+    "action": "cadastrar_participante_sucesso",
+    "details": {
+      "id": 6,
+      "nome": "KAUAN",
+      "evento_id": "1"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:16:34.022Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:16:34.024Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 5
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:52:53.915Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:52:53.917Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 5
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:52:57.921Z",
+    "action": "cadastrar_participante_inicio",
+    "details": {
+      "nome": "sad",
+      "evento_id": "3",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:52:57.925Z",
+    "action": "cadastrar_participante_sucesso",
+    "details": {
+      "id": 7,
+      "nome": "sad",
+      "evento_id": "3"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:52:57.935Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:52:57.937Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 6
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:59:57.788Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T13:59:57.791Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 6
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:13.474Z",
+    "action": "cadastrar_participante_inicio",
+    "details": {
+      "nome": "Jessica",
+      "evento_id": "4",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:13.488Z",
+    "action": "cadastrar_participante_sucesso",
+    "details": {
+      "id": 8,
+      "nome": "Jessica",
+      "evento_id": "4"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:13.497Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:13.499Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 7
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:22.888Z",
+    "action": "buscar_participante_inicio",
+    "details": {
+      "id": "8",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:22.890Z",
+    "action": "buscar_participante_sucesso",
+    "details": {
+      "id": "8",
+      "participante": {
+        "id": 8,
+        "nome": "Jessica",
+        "evento_id": 4
+      }
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:29.441Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "4",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:29.443Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 1
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:53.725Z",
+    "action": "cadastrar_participante_inicio",
+    "details": {
+      "nome": "Paula",
+      "evento_id": "4",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:53.739Z",
+    "action": "cadastrar_participante_sucesso",
+    "details": {
+      "id": 9,
+      "nome": "Paula",
+      "evento_id": "4"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:53.749Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:00:53.750Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 8
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:01:01.095Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:01:01.096Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 8
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:01:03.249Z",
+    "action": "listar_participantes_inicio",
+    "details": {
+      "evento_id": "4",
+      "user": "anonymous"
+    },
+    "user": "anonymous"
+  },
+  {
+    "timestamp": "2024-12-05T14:01:03.252Z",
+    "action": "listar_participantes_sucesso",
+    "details": {
+      "total_participantes": 2
+    },
+    "user": "anonymous"
+  }
+]
